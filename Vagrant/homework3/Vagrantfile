@@ -1,0 +1,15 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "vm1" do |vm1|
+    vm1.vm.box = "centos/7"
+    config.vm.provision "shell", inline: <<-SHELL
+      ls -la | grep "\->"
+      sed -n '/^Character/, /^$/ { /^$/ !p }' /proc/devices
+      sed -n '/^Block/, /^$/ { /^$/ !p }' /proc/devices
+      sudo find / -type d -perm -1000 -exec ls -ld {} \;
+      ln -s /tmp
+      sudo useradd testuser
+      sudo touch /home/testuser/testuser_data
+      sudo chown testuser:testuser /home/testuser/testuser_data
+    SHELL
+  end
+end
