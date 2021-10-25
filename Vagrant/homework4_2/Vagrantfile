@@ -1,0 +1,48 @@
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox" do |v|
+    v.name = "myvm"
+    v.memory = 2048
+    v.cpus = 2
+       
+    # file_to_disk1 = "mydisk1.vmdk"
+    # unless File.exist?(file_to_disk1)
+    #   v.customize ['createhd', 
+    #                '--filename', file_to_disk1, 
+    #                '--size', 300]
+    #   v.customize ['storageattach', "myvm", 
+    #                '--storagectl', 'SATAController', 
+    #                '--port', 1, '--device', 0, '--type', 'hdd', '--medium', file_to_disk1]
+    # end
+    # file_to_disk2 = "mydisk2.vmdk"
+    # unless File.exist?(file_to_disk2)
+    #    v.customize [ "createmedium", "disk", "--filename", "mydisk2.vmdk", "--format", "vmdk", "--size", 300 ]
+    # end
+    # v.customize [ "storageattach", "myvm" , "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "hdd", "--medium", file_to_disk2]
+  
+    # file_to_disk3 = "mydisk3.vmdk"
+    # unless File.exist?(file_to_disk3)
+    #    v.customize [ "createmedium", "disk", "--filename", "mydisk3.vmdk", "--format", "vmdk", "--size", 300 ]
+    # end
+    # v.customize [ "storageattach", "myvm" , "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "hdd", "--medium", file_to_disk3]
+  
+    # file_to_disk4 = "mydisk4.vmdk"
+    # unless File.exist?(file_to_disk4)
+    #    v.customize [ "createmedium", "disk", "--filename", "mydis4.vmdk", "--format", "vmdk", "--size", 300 ]
+    # end
+    # v.customize [ "storageattach", "myvm" , "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--type", "hdd", "--medium", file_to_disk4]
+  end
+
+  config.vm.define "vm1" do |vm1|
+    vm1.vm.box = "ubuntu/xenial64"
+    config.vm.provision "shell", inline: <<-SHELL
+      sudo lsblk
+      # pvcreate /dev/mydisk1 /dev/mydisk2 /dev/mydisk3 /dev/mydisk4
+      sudo pvs
+      # vgcreate vg1 /dev/mydisk1 /dev/mydisk2
+      # vgcreate vg2 /dev/mydisk3 /dev/mydisk4
+      df -h
+      sudo vgs
+      sudo lsblk
+    SHELL
+  end
+end
