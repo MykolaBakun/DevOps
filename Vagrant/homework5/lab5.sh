@@ -3,8 +3,6 @@ mkdir /var/folder{1,2}
 
 cat /home/vagrant/test.service > /etc/systemd/system/test.service
 
-chmod +x /etc/systemd/system/test.service
-
 systemctl daemon-reload
 
 systemctl start test.service

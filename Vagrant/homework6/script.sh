@@ -6,8 +6,7 @@ do
   echo $(parted /dev/"$i" --script -- mkpart primary ext4 0 100%) > /dev/null
 done
 
-yum install epel-release -y > /dev/null
-yum install lvm2 -y > /dev/null
+yum install lvm2 -y
 
 pvcreate /dev/sdb1 /dev/sdc1
 pvcreate /dev/sdd1 /dev/sde1
