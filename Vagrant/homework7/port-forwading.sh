@@ -1,0 +1,1 @@
+ssh -D 6666 -p 3822 root@yoko.ukrtux.com
